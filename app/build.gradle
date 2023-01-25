@@ -9,7 +9,7 @@ android {
 
     defaultConfig {
         applicationId "com.example.smarthomegesturecontrolkotlin2"
-        minSdk 33
+        minSdk 29
         targetSdk 33
         versionCode 1
         versionName "1.0"
@@ -30,16 +30,39 @@ android {
     kotlinOptions {
         jvmTarget = '1.8'
     }
+    buildFeatures {
+        dataBinding true
+        viewBinding true
+    }
 }
 
 dependencies {
 
-    implementation 'androidx.core:core-ktx:1.7.0'
-    implementation 'androidx.appcompat:appcompat:1.6.0'
-    implementation 'com.google.android.material:material:1.7.0'
-    implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
-    implementation("com.squareup.okhttp3:okhttp:4.9.0")
-    testImplementation 'junit:junit:4.13.2'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.5'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
+//    implementation 'androidx.core:core-ktx:1.7.0'
+//    implementation 'androidx.appcompat:appcompat:1.6.0'
+//    implementation 'com.google.android.material:material:1.7.0'
+//    implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
+//    implementation("com.squareup.okhttp3:okhttp:4.9.0")
+//    testImplementation 'junit:junit:4.13.2'
+//    androidTestImplementation 'androidx.test.ext:junit:1.1.5'
+//    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
+
+
+    //region Android X Library
+    implementation "android.activity:activity-ktx:1.6.0-rc02"
+    implementation "android. appcompat: appcompat: 1.5.1"
+    implementation "android.constraintlayout:constraintlayout:2.1.4"
+    implementation "androidx.core:core-ktx:1.9.0"
+    implementation "android. fragment: fragment-ktx:1.5.2"
+    implementation "androidx.lifecycle:lifecycle-runtime-ktx:2.5.1"
+    implementation "androidx.lifecycle:lifecycle-viewmodel-Ktx:2.5.1"
+
+    //region Google Library
+    implementation "com.google.android.material:material:1.7.0"
+    implementation 'androidx.camera:camera-view:1.2.0'
+
+    //region Android Unit Test and U.I. Test Library
+    testImplementation "junit:junit:4.13.2"
+    androidTestImplementation "androidx.test.ext:junit:1.1.5"
+    androidTestImplementation "android.test.espresso:espresso-core:3.4.0"
 }
