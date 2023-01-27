@@ -7,16 +7,16 @@ import android.widget.Button
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import okhttp3.*
-import okhttp3.MediaType.Companion.toMediaType
-import okhttp3.RequestBody.Companion.toRequestBody
+//import okhttp3.MediaType.Companion.toMediaType
+//import okhttp3.RequestBody.Companion.toRequestBody
 import java.io.IOException
 
 
 class MainActivity : AppCompatActivity() {
 
     private val url = "http://" + "10.0.2.2" + ":" + 5000 + "/"
-    private var postBodyString: String? = null
-    private var mediaType: MediaType? = null
+//    private var postBodyString: String? = null
+//    private var mediaType: MediaType? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,7 +33,7 @@ class MainActivity : AppCompatActivity() {
         connect.setOnClickListener(View.OnClickListener {
             postRequest(
                 "AK message here: it's working",
-                url
+                url + "debug"
             )
         })
 
@@ -41,18 +41,22 @@ class MainActivity : AppCompatActivity() {
     }
 
 
-    private fun buildRequestBody(msg: String): RequestBody {
-        postBodyString = msg
-        mediaType = "text/plain; charset=utf-8".toMediaType()
-        return postBodyString.toString().toRequestBody(mediaType)
-    }
+//    private fun buildRequestBody(msg: String): RequestBody {
+//        postBodyString = msg
+//        mediaType = "text/plain; charset=utf-8".toMediaType()
+//        return postBodyString.toString().toRequestBody(mediaType)
+//    }
 
 
     private fun postRequest(message: String, URL: String) {
-        val requestBody = buildRequestBody(message)
+        //val requestBody = buildRequestBody(message)
+        val formbody: RequestBody = FormBody.Builder()
+            .add("sample", message)
+            .build()
+
         val okHttpClient = OkHttpClient()
         val request: Request = Request.Builder()
-            .post(requestBody)
+            .post(formbody)
             .url(URL)
             .build()
         okHttpClient.newCall(request).enqueue(object : Callback {
