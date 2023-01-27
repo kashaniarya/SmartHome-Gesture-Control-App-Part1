@@ -132,6 +132,7 @@ class ActivityTurnOnLights2 : AppCompatActivity() {
                                 .show()
                             Log.d(TAG, msg)
                             val intent = Intent(this, ActivityTurnOnLights3::class.java)
+                            intent.putExtra("arya", "${recordEvent.outputResults.outputUri}")
                             startActivity(intent)
                         } else {
                             recording?.close()
