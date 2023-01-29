@@ -27,6 +27,7 @@ import androidx.camera.video.Quality
 import androidx.camera.video.QualitySelector
 import androidx.camera.video.VideoRecordEvent
 import androidx.core.content.PermissionChecker
+import okhttp3.internal.concurrent.formatDuration
 import java.text.SimpleDateFormat
 import java.util.Locale
 
@@ -43,6 +44,7 @@ class ActivityTurnOnLights2 : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         viewBinding = ActivityTurnOnLights2Binding.inflate(layoutInflater)
         setContentView(viewBinding.root)
+
 
         // Request camera permissions
         if (allPermissionsGranted()) {
@@ -66,9 +68,7 @@ class ActivityTurnOnLights2 : AppCompatActivity() {
             if (allPermissionsGranted()) {
                 startCamera()
             } else {
-                Toast.makeText(this,
-                    "Permissions not granted by the user.",
-                    Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "Permissions not granted by the user.", Toast.LENGTH_SHORT).show()
                 finish()
             }
         }
@@ -93,9 +93,12 @@ class ActivityTurnOnLights2 : AppCompatActivity() {
         // create and start a new recording session
         val name = SimpleDateFormat(FILENAME_FORMAT, Locale.US)
             .format(System.currentTimeMillis())
+
         val contentValues = ContentValues().apply {
             put(MediaStore.MediaColumns.DISPLAY_NAME, name)
             put(MediaStore.MediaColumns.MIME_TYPE, "video/mp4")
+            //put(MediaStore.MediaColumns.ORIENTATION, 90)
+            //put(MediaStore.EXTRA_DURATION_LIMIT, 5000)
             //put(MediaStore.MediaColumns.DURATION, 5)
             if (Build.VERSION.SDK_INT > Build.VERSION_CODES.P) {
                 put(MediaStore.Video.Media.RELATIVE_PATH, "Movies/CameraX-Video")
@@ -106,12 +109,11 @@ class ActivityTurnOnLights2 : AppCompatActivity() {
             .Builder(contentResolver, MediaStore.Video.Media.EXTERNAL_CONTENT_URI)
             .setContentValues(contentValues)
             .build()
+
         recording = videoCapture.output
             .prepareRecording(this, mediaStoreOutputOptions)
             .apply {
-                if (PermissionChecker.checkSelfPermission(this@ActivityTurnOnLights2,
-                        Manifest.permission.RECORD_AUDIO) ==
-                    PermissionChecker.PERMISSION_GRANTED)
+                if (PermissionChecker.checkSelfPermission(this@ActivityTurnOnLights2, Manifest.permission.RECORD_AUDIO) == PermissionChecker.PERMISSION_GRANTED)
                 {
                     withAudioEnabled()
                 }
@@ -126,10 +128,8 @@ class ActivityTurnOnLights2 : AppCompatActivity() {
                     }
                     is VideoRecordEvent.Finalize -> {
                         if (!recordEvent.hasError()) {
-                            val msg = "Video capture succeeded: " +
-                                    "${recordEvent.outputResults.outputUri}"
-                            Toast.makeText(baseContext, msg, Toast.LENGTH_SHORT)
-                                .show()
+                            val msg = "Video capture succeeded: " + "${recordEvent.outputResults.outputUri}"
+                            Toast.makeText(baseContext, msg, Toast.LENGTH_SHORT).show()
                             Log.d(TAG, msg)
                             val intent = Intent(this, ActivityTurnOnLights3::class.java)
                             intent.putExtra("arya", "${recordEvent.outputResults.outputUri}")
@@ -137,8 +137,7 @@ class ActivityTurnOnLights2 : AppCompatActivity() {
                         } else {
                             recording?.close()
                             recording = null
-                            Log.e(TAG, "Video capture ends with error: " +
-                                    "${recordEvent.error}")
+                            Log.e(TAG, "Video capture ends with error: " + "${recordEvent.error}")
                         }
                         viewBinding.videoCaptureButton.apply {
                             text = getString(R.string.start_capture)
@@ -177,8 +176,7 @@ class ActivityTurnOnLights2 : AppCompatActivity() {
                 cameraProvider.unbindAll()
 
                 // Bind use cases to camera
-                cameraProvider
-                    .bindToLifecycle(this, cameraSelector, preview, videoCapture)
+                cameraProvider.bindToLifecycle(this, cameraSelector, preview, videoCapture)
             } catch(exc: Exception) {
                 Log.e(TAG, "Use case binding failed", exc)
             }
@@ -187,8 +185,7 @@ class ActivityTurnOnLights2 : AppCompatActivity() {
     }
 
     private fun allPermissionsGranted() = REQUIRED_PERMISSIONS.all {
-        ContextCompat.checkSelfPermission(
-            baseContext, it) == PackageManager.PERMISSION_GRANTED
+        ContextCompat.checkSelfPermission(baseContext, it) == PackageManager.PERMISSION_GRANTED
     }
 
     override fun onDestroy() {

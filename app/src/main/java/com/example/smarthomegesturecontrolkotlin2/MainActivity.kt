@@ -14,6 +14,8 @@ import java.io.IOException
 
 class MainActivity : AppCompatActivity() {
 
+    var ax = 0
+
     private val url = "http://" + "10.0.2.2" + ":" + 5000 + "/"
 //    private var postBodyString: String? = null
 //    private var mediaType: MediaType? = null
@@ -54,11 +56,12 @@ class MainActivity : AppCompatActivity() {
             .add("sample", message)
             .build()
 
-        val okHttpClient = OkHttpClient()
         val request: Request = Request.Builder()
             .post(formbody)
             .url(URL)
             .build()
+
+        val okHttpClient = OkHttpClient()
         okHttpClient.newCall(request).enqueue(object : Callback {
             override fun onFailure(call: Call, e: IOException) {
                 runOnUiThread {
@@ -75,10 +78,11 @@ class MainActivity : AppCompatActivity() {
             override fun onResponse(call: Call, response: Response) {
                 runOnUiThread {
                     try {
+                        ax += 1
                         Toast.makeText(
                             this@MainActivity,
-                            response.body!!.string(),
-                            Toast.LENGTH_LONG
+                            response.body!!.string() + ax,
+                            Toast.LENGTH_SHORT
                         )
                             .show()
                     } catch (e: IOException) {
