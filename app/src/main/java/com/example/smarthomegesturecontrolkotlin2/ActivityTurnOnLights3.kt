@@ -2,25 +2,23 @@ package com.example.smarthomegesturecontrolkotlin2
 
 import android.content.Intent
 import android.media.MediaPlayer
-import android.net.Uri
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Environment
-import android.provider.MediaStore
 import android.util.Log
 import android.webkit.MimeTypeMap
 import android.widget.Button
 import android.widget.Toast
 import android.widget.VideoView
-import androidx.camera.video.VideoRecordEvent
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.net.toFile
 import androidx.core.net.toUri
-import com.example.smarthomegesturecontrolkotlin2.databinding.ActivityTurnOnLights2Binding
 import com.example.smarthomegesturecontrolkotlin2.databinding.ActivityTurnOnLights3Binding
 import okhttp3.*
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.RequestBody.Companion.asRequestBody
 import java.io.File
 import java.io.IOException
+import java.io.InputStream
 
 class ActivityTurnOnLights3 : AppCompatActivity() {
 
@@ -53,17 +51,37 @@ class ActivityTurnOnLights3 : AppCompatActivity() {
             xxx += 1
 
             try {
+                var uri = akstr.toUri()
+                var path = uri.path
+
                 // Make sure the Pictures directory exists.
                 //var  path: File? = this.getExternalFilesDir(Environment.DIRECTORY_MOVIES) //
                 //var path = Environment.getExternalStoragePublicDirectory("content://media/external/video/media/")
+                //var storageDir = Environment.getExternalStoragePublicDirectory(path)
                 //var path = this.getExternalFilesDir(MediaStore.Video.Media.EXTERNAL_CONTENT_URI.path)
-                var slashIndex  = akstr.lastIndexOf('/')
-                var vidName = akstr.substring(slashIndex+1)
+                //var slashIndex  = akstr.lastIndexOf('/')
+                //var vidName = akstr.substring(slashIndex+1)
                 //Log.d("vid name",vidName);
-                //var storageDir = getExternalFilesDir(Environment.DIRECTORY_MOVIES + "/" + vidName)
-                var storageDir = getExternalFilesDir(akstr)
+                var storageDir = getExternalFilesDir(Environment.DIRECTORY_MOVIES)
+                //var storageDir = getExternalFilesDir(akstr)
 
-                var file = File.createTempFile("TurnOnLights$xxx",".mp4", storageDir)
+                //var path2 = URIPathHelper.getPath(this, uri)
+                //var file = File(path)
+
+                val inputStream: InputStream? = contentResolver.openInputStream(uri)
+
+                var vidName = "TurnOnLights${xxx}"
+                val file: File = createTempFile(vidName, ".mp4", storageDir)
+
+                inputStream.use { input ->
+                    file.outputStream().use { output ->
+                        input!!.copyTo(output)
+                    }
+                }
+
+                //var file2 = uri.toFile()
+
+//                var file = File.createTempFile("TurnOnLights$xxx",".mp4", path)
                 postRequest(akstr, url + "video", file)
             }
             catch (e: Exception) {
