@@ -33,10 +33,8 @@ class MainActivity : AppCompatActivity() {
 
         val connect = findViewById<Button>(R.id.buttonTurnOffLights)
         connect.setOnClickListener(View.OnClickListener {
-            postRequest(
-                "AK message here: it's working",
-                url + "debug"
-            )
+                ax += 1
+                postRequest("AK$ax message here: it's working", url + "debug")
         })
 
 
@@ -78,7 +76,6 @@ class MainActivity : AppCompatActivity() {
             override fun onResponse(call: Call, response: Response) {
                 runOnUiThread {
                     try {
-                        ax += 1
                         Toast.makeText(
                             this@MainActivity,
                             response.body!!.string() + ax,
