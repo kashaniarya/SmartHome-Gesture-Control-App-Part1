@@ -7,6 +7,27 @@ import itertools
 
 UPLOAD_FOLDER = './saved-videos/'
 
+gestureDict = {
+                  "LightOn": 0,
+                  "LightOff": 0,
+                  "FanOn": 0,
+                  "FanOff": 0,
+                  "FanUp": 0,
+                  "FanDown": 0,
+                  "SetThermo": 0,
+                  "Num0": 0,
+                  "Num1": 0,
+                  "Num2": 0,
+                  "Num3": 0,
+                  "Num4": 0,
+                  "Num5": 0,
+                  "Num6": 0,
+                  "Num7": 0,
+                  "Num8": 0,
+                  "Num9": 0
+              }
+
+
 app = Flask(__name__)
 
 @app.route("/")
@@ -21,18 +42,19 @@ def debug():
 
 @app.route("/video", methods=["POST"])
 def video():
-    print("made it into /video http post endpoint ")
     try:
         file = request.files['uploaded_file']
         filename = file.filename
         print("filename: " + filename)
-        filename = secure_filename(file.filename)
-        #fn = "".join(itertools.takewhile(str.isalpha, filename))
-        #print("fn: " + fn)
-        file.save(os.path.join(UPLOAD_FOLDER, filename))
+        key = "".join(itertools.takewhile(str.isalpha, filename))
+        gestureDict[key] += 1
+        value = str(gestureDict[key])
+        fn = key + "_PRACTICE_" + value
+        fn = fn + ".mp4"
+        fn = secure_filename(fn)
+        file.save(os.path.join(UPLOAD_FOLDER, fn))
     except Exception as e:
         print("Exception ak: " + str(e))
-
     return "receieved ak"
 
 

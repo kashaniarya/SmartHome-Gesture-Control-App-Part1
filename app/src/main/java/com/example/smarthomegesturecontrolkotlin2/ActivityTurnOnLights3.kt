@@ -43,7 +43,7 @@ class ActivityTurnOnLights3 : AppCompatActivity() {
                 var uri = akstr.toUri()
                 val inputStream: InputStream? = contentResolver.openInputStream(uri)
 
-                var vidName = "TurnOnLights_PRACTICE_"
+                var vidName = "LightOn_"
                 val file: File = File.createTempFile(vidName, ".mp4")
 
                 inputStream.use { input ->
