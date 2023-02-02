@@ -3,7 +3,6 @@ package com.example.smarthomegesturecontrolkotlin2
 import android.content.Intent
 import android.media.MediaPlayer
 import android.os.Bundle
-import android.util.Log
 import android.webkit.MimeTypeMap
 import android.widget.Button
 import android.widget.Toast
@@ -42,22 +41,17 @@ class ActivityTurnOnLights3 : AppCompatActivity() {
             try {
                 var uri = akstr.toUri()
                 val inputStream: InputStream? = contentResolver.openInputStream(uri)
-
                 var vidName = "LightOn_"
                 val file: File = File.createTempFile(vidName, ".mp4")
-
                 inputStream.use { input ->
                     file.outputStream().use { output ->
                         input!!.copyTo(output)
                     }
                 }
-
-                postRequest(akstr, url + "video", file)
+                postRequest(url + "video", file)
             }
             catch (e: Exception) {
                 Toast.makeText(this@ActivityTurnOnLights3, "File uploading failed in catch: " + e.message, Toast.LENGTH_SHORT).show()
-                println("e-msg: " + e.message);
-                Log.d("catch: ", e.message.toString());
             }
             val intent = Intent(this, MainActivity::class.java)
             startActivity(intent)
@@ -80,7 +74,7 @@ class ActivityTurnOnLights3 : AppCompatActivity() {
         return type
     }
 
-    private fun postRequest(message: String, URL: String, sourceFile: File) {
+    private fun postRequest(URL: String, sourceFile: File) {
         val fileName: String = sourceFile.name
         val mimeType = getMimeType(sourceFile)
         val requestBody: RequestBody =
@@ -97,8 +91,8 @@ class ActivityTurnOnLights3 : AppCompatActivity() {
         okHttpClient.newCall(request).enqueue(object : Callback {
             override fun onFailure(call: Call, e: IOException) {
                 runOnUiThread {
-                    System.out.println("e-msg: " + e.message);
-                    Log.d("taggg: ", e.message.toString());
+                    //System.out.println("e-msg: " + e.message);
+                    //Log.d("taggg: ", e.message.toString());
                     Toast.makeText(this@ActivityTurnOnLights3, "Something went wrong:" + " " + e.message, Toast.LENGTH_LONG).show()
                     call.cancel()
                 }

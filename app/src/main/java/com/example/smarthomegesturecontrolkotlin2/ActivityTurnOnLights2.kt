@@ -29,7 +29,6 @@ import androidx.camera.video.Quality
 import androidx.camera.video.QualitySelector
 import androidx.camera.video.VideoRecordEvent
 import androidx.core.content.PermissionChecker
-import okhttp3.internal.concurrent.formatDuration
 import java.text.SimpleDateFormat
 import java.util.Locale
 
@@ -39,7 +38,6 @@ class ActivityTurnOnLights2 : AppCompatActivity() {
     private lateinit var viewBinding: ActivityTurnOnLights2Binding
     private var videoCapture: VideoCapture<Recorder>? = null
     private var recording: Recording? = null
-
     private lateinit var cameraExecutor: ExecutorService
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -99,9 +97,6 @@ class ActivityTurnOnLights2 : AppCompatActivity() {
         val contentValues = ContentValues().apply {
             put(MediaStore.MediaColumns.DISPLAY_NAME, name)
             put(MediaStore.MediaColumns.MIME_TYPE, "video/mp4")
-            //put(MediaStore.MediaColumns.ORIENTATION, 90)
-            //put(MediaStore.EXTRA_DURATION_LIMIT, 5000)
-            //put(MediaStore.MediaColumns.DURATION, 5)
             if (Build.VERSION.SDK_INT > Build.VERSION_CODES.P) {
                 put(MediaStore.Video.Media.RELATIVE_PATH, "Movies/CameraX-Video")
             }
@@ -174,7 +169,6 @@ class ActivityTurnOnLights2 : AppCompatActivity() {
             videoCapture = VideoCapture.withOutput(recorder)
 
 
-            // Select back camera as a default
             val cameraSelector = CameraSelector.DEFAULT_FRONT_CAMERA
 
             try {

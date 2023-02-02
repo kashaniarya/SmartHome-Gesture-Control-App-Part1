@@ -67,9 +67,7 @@ class ActivityTurnOnLights1 : AppCompatActivity() {
             mp.isLooping = true
         })
 
-
     }
-
 
 
 
