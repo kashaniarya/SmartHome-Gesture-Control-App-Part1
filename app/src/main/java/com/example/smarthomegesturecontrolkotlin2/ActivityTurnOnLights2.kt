@@ -17,6 +17,8 @@ import android.widget.Toast
 import com.example.smarthomegesturecontrolkotlin2.databinding.ActivityTurnOnLights2Binding
 import android.content.ContentValues
 import android.content.Intent
+import android.os.Handler
+import android.os.Looper
 import android.provider.MediaStore
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.camera.core.Preview
@@ -125,6 +127,10 @@ class ActivityTurnOnLights2 : AppCompatActivity() {
                             text = getString(R.string.stop_capture)
                             isEnabled = true
                         }
+                        val handler = Handler(Looper.getMainLooper())
+                        handler.postDelayed(Runnable {
+                            recording?.stop()
+                        }, 5000)
                     }
                     is VideoRecordEvent.Finalize -> {
                         if (!recordEvent.hasError()) {
