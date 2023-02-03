@@ -45,7 +45,7 @@ def video():
     try:
         file = request.files['uploaded_file']
         filename = file.filename
-        print("filename: " + filename)
+        #print("filename: " + filename)
         key = "".join(itertools.takewhile(str.isalpha, filename))
         gestureDict[key] += 1
         value = str(gestureDict[key])
