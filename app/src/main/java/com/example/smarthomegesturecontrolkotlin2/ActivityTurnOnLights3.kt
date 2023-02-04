@@ -60,6 +60,7 @@ class ActivityTurnOnLights3 : AppCompatActivity() {
         val buttonRetake = findViewById<Button>(R.id.buttonRetake)
         buttonRetake.setOnClickListener {
             val intent = Intent(this, ActivityTurnOnLights2::class.java)
+            intent.putExtra("gestureName", gestureName)
             startActivity(intent)
         }
     }

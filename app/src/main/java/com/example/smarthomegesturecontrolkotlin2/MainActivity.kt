@@ -13,23 +13,23 @@ class MainActivity : AppCompatActivity() {
 
     val dropDownList = arrayOf(
                 "Select Gesture",
-                "LightOn",
-                "LightOff",
-                "FanOn",
-                "FanOff",
-                "FanUp",
-                "FanDown",
-                "SetThermo",
-                "Num0",
-                "Num1",
-                "Num2",
-                "Num3",
-                "Num4",
-                "Num5",
-                "Num6",
-                "Num7",
-                "Num8",
-                "Num9"
+                "Turn On Light",
+                "Turn Off Light",
+                "Turn On Fan",
+                "Turn Off Fan",
+                "Increase Fan Speed",
+                "Decrease Fan Speed",
+                "Set Thermostat to specified temperature",
+                "Number 0",
+                "Number 1",
+                "Number 2",
+                "Number 3",
+                "Number 4",
+                "Number 5",
+                "Number 6",
+                "Number 7",
+                "Number 8",
+                "Number 9"
     )
 
     override fun onCreate(savedInstanceState: Bundle?) {
