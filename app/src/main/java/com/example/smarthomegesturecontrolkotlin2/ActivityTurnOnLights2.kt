@@ -45,6 +45,7 @@ class ActivityTurnOnLights2 : AppCompatActivity() {
         viewBinding = ActivityTurnOnLights2Binding.inflate(layoutInflater)
         setContentView(viewBinding.root)
 
+        val gestureName = intent.getStringExtra("gestureName") ?: "no data"
 
         // Request camera permissions
         if (allPermissionsGranted()) {
@@ -55,7 +56,7 @@ class ActivityTurnOnLights2 : AppCompatActivity() {
         }
 
         // Set up the listeners for take photo and video capture buttons
-        viewBinding.videoCaptureButton.setOnClickListener { captureVideo() }
+        viewBinding.videoCaptureButton.setOnClickListener { captureVideo(gestureName) }
 
         cameraExecutor = Executors.newSingleThreadExecutor()
     }
@@ -77,7 +78,7 @@ class ActivityTurnOnLights2 : AppCompatActivity() {
 
 
     // Implements VideoCapture use case, including start and stop capturing.
-    private fun captureVideo() {
+    private fun captureVideo(gestureName: String) {
         val videoCapture = this.videoCapture ?: return
 
         viewBinding.videoCaptureButton.isEnabled = false
@@ -131,9 +132,9 @@ class ActivityTurnOnLights2 : AppCompatActivity() {
                         if (!recordEvent.hasError()) {
                             val msg = "Video capture succeeded: " + "${recordEvent.outputResults.outputUri}"
                             Toast.makeText(baseContext, msg, Toast.LENGTH_SHORT).show()
-                            Log.d(TAG, msg)
                             val intent = Intent(this, ActivityTurnOnLights3::class.java)
                             intent.putExtra("arya", "${recordEvent.outputResults.outputUri}")
+                            intent.putExtra("gestureName", gestureName)
                             startActivity(intent)
                         } else {
                             recording?.close()

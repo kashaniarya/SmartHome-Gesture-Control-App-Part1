@@ -23,6 +23,8 @@ class ActivityTurnOnLights1 : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_turn_on_lights1)
 
+        val gestureName = intent.getStringExtra("ziba") ?: "no data"
+
         // get reference to button
         val btnBack = findViewById<Button>(R.id.buttonBack)
         // set on-click listener
@@ -34,11 +36,11 @@ class ActivityTurnOnLights1 : AppCompatActivity() {
         val btnPractice = findViewById<Button>(R.id.buttonPractice)
         btnPractice.setOnClickListener {
             val intent = Intent(this, ActivityTurnOnLights2::class.java)
+            intent.putExtra("gestureName", gestureName)
             startActivity(intent)
         }
 
         // assigning id of VideoView from
-        // activity_main.xml layout file
         simpleVideoView = findViewById<View>(R.id.videoView) as VideoView
 
         if (mediaControls == null) {
@@ -53,10 +55,92 @@ class ActivityTurnOnLights1 : AppCompatActivity() {
         simpleVideoView!!.setMediaController(mediaControls)
 
         // set the absolute path of the video file which is going to be played
-        simpleVideoView!!.setVideoURI(
-            Uri.parse("android.resource://"
-                + packageName + "/" + R.raw.lighton))
-        //  videoView.setVideoPath("android.resource://" + getPackageName() + "/" + R.raw.lighton);
+        if (gestureName == "LightOn") {
+            simpleVideoView!!.setVideoURI(
+                Uri.parse("android.resource://"
+                        + packageName + "/" + R.raw.lighton))
+        }
+        if (gestureName == "LightOff") {
+            simpleVideoView!!.setVideoURI(
+                Uri.parse("android.resource://"
+                        + packageName + "/" + R.raw.lightoff))
+        }
+        if (gestureName == "FanOn") {
+            simpleVideoView!!.setVideoURI(
+                Uri.parse("android.resource://"
+                        + packageName + "/" + R.raw.fanon))
+        }
+        if (gestureName == "FanOff") {
+            simpleVideoView!!.setVideoURI(
+                Uri.parse("android.resource://"
+                        + packageName + "/" + R.raw.fanoff))
+        }
+        if (gestureName == "FanUp") {
+            simpleVideoView!!.setVideoURI(
+                Uri.parse("android.resource://"
+                        + packageName + "/" + R.raw.increasefanspeed))
+        }
+        if (gestureName == "FanDown") {
+            simpleVideoView!!.setVideoURI(
+                Uri.parse("android.resource://"
+                        + packageName + "/" + R.raw.decreasefanspeed))
+        }
+        if (gestureName == "SetThermo") {
+            simpleVideoView!!.setVideoURI(
+                Uri.parse("android.resource://"
+                        + packageName + "/" + R.raw.setthermo))
+        }
+        if (gestureName == "Num0") {
+            simpleVideoView!!.setVideoURI(
+                Uri.parse("android.resource://"
+                        + packageName + "/" + R.raw.num0))
+        }
+        if (gestureName == "Num1") {
+            simpleVideoView!!.setVideoURI(
+                Uri.parse("android.resource://"
+                        + packageName + "/" + R.raw.num1))
+        }
+        if (gestureName == "Num2") {
+            simpleVideoView!!.setVideoURI(
+                Uri.parse("android.resource://"
+                        + packageName + "/" + R.raw.num2))
+        }
+        if (gestureName == "Num3") {
+            simpleVideoView!!.setVideoURI(
+                Uri.parse("android.resource://"
+                        + packageName + "/" + R.raw.num3))
+        }
+        if (gestureName == "Num4") {
+            simpleVideoView!!.setVideoURI(
+                Uri.parse("android.resource://"
+                        + packageName + "/" + R.raw.num4))
+        }
+        if (gestureName == "Num5") {
+            simpleVideoView!!.setVideoURI(
+                Uri.parse("android.resource://"
+                        + packageName + "/" + R.raw.num5))
+        }
+        if (gestureName == "Num6") {
+            simpleVideoView!!.setVideoURI(
+                Uri.parse("android.resource://"
+                        + packageName + "/" + R.raw.num6))
+        }
+        if (gestureName == "Num7") {
+            simpleVideoView!!.setVideoURI(
+                Uri.parse("android.resource://"
+                        + packageName + "/" + R.raw.num7))
+        }
+        if (gestureName == "Num8") {
+            simpleVideoView!!.setVideoURI(
+                Uri.parse("android.resource://"
+                        + packageName + "/" + R.raw.num8))
+        }
+        if (gestureName == "Num9") {
+            simpleVideoView!!.setVideoURI(
+                Uri.parse("android.resource://"
+                        + packageName + "/" + R.raw.num9))
+        }
+
 
         simpleVideoView!!.requestFocus()
 

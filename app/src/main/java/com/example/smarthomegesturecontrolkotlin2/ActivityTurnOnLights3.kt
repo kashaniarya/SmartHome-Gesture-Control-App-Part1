@@ -28,6 +28,7 @@ class ActivityTurnOnLights3 : AppCompatActivity() {
         setContentView(R.layout.activity_turn_on_lights3)
 
         val akstr = intent.getStringExtra("arya") ?: "no data"
+        val gestureName = intent.getStringExtra("gestureName") ?: "no data"
 
         val videoView = findViewById<VideoView>(R.id.videoView3)
         videoView.setVideoURI(akstr.toUri())
@@ -41,8 +42,7 @@ class ActivityTurnOnLights3 : AppCompatActivity() {
             try {
                 var uri = akstr.toUri()
                 val inputStream: InputStream? = contentResolver.openInputStream(uri)
-                var vidName = "LightOn_"
-                val file: File = File.createTempFile(vidName, ".mp4")
+                val file: File = File.createTempFile(gestureName, ".mp4")
                 inputStream.use { input ->
                     file.outputStream().use { output ->
                         input!!.copyTo(output)
@@ -91,8 +91,6 @@ class ActivityTurnOnLights3 : AppCompatActivity() {
         okHttpClient.newCall(request).enqueue(object : Callback {
             override fun onFailure(call: Call, e: IOException) {
                 runOnUiThread {
-                    //System.out.println("e-msg: " + e.message);
-                    //Log.d("taggg: ", e.message.toString());
                     Toast.makeText(this@ActivityTurnOnLights3, "Something went wrong:" + " " + e.message, Toast.LENGTH_LONG).show()
                     call.cancel()
                 }

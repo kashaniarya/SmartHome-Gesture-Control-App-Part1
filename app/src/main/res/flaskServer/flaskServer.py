@@ -1,9 +1,7 @@
-
 import os
 import urllib.request
 from flask import Flask, request
 from werkzeug.utils import secure_filename
-import itertools
 
 UPLOAD_FOLDER = './saved-videos/'
 
@@ -45,8 +43,7 @@ def video():
     try:
         file = request.files['uploaded_file']
         filename = file.filename
-        #print("filename: " + filename)
-        key = "".join(itertools.takewhile(str.isalpha, filename))
+        key = filename[:-23]
         gestureDict[key] += 1
         value = str(gestureDict[key])
         fn = key + "_PRACTICE_" + value
